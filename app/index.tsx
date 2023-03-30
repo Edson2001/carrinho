@@ -3,7 +3,6 @@ import { Image } from 'react-native';
 import { View, Text } from 'react-native';
 import Container from '../src/components/Container';
 import Button from '@Components/Button';
-// import { Container } from './styles';
 
 const app: React.FC = () => {
   return (
