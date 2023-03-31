@@ -9,8 +9,12 @@ module.exports = {
       white: "#FFF",
       textSecondry: "#5F77F5",
       textWhiteSecondary: "#C1C1C1",
-      buttonBackground: "#5F77F5"
-    }
+      buttonBackground: "#5F77F5",
+      backgroundInput: "#162140",
+      textInfo: "#DFDFDF",
+      success: "#559C2A",
+      open: "#C53939"
+    },
   },
   plugins: ["nativewind/babel"],
 }
