@@ -1,6 +1,7 @@
 import React from 'react';
 import { View,FlatList,Text, Image} from 'react-native';
-
+import {Feather} from "@expo/vector-icons"
+import { Pressable } from 'react-native';
 interface ProductType {
     img: string
     name: string
@@ -12,21 +13,52 @@ interface ProductType {
     productLink: string
     
 }
-const List = (item: ProductType | any)=>(
-    <View>
-        <Image  className='w-[200px] h-[200px]' source={{
-            uri: item.img
-        }} />
-        <Text className='text-white'>{item.name}</Text>
-    </View>
-)
+const List = ({item}: ProductType | any)=>{
+    console.log(item)
+    return (
+    
+        <View className='bg-white  flex-row p-3'>
+            <Image   className='w-[100px] h-[100px]' source={{
+                uri: item.img
+            }} />
+            <View className='ml-3'>
+                <View className='flex-col'>
+                    <View className='flex-row justify-between items-center  w-full'>
+                        <Text className='mb-3 w-[200px]'>{item.name}</Text>
+                        <Pressable>
+                            <Feather size={10} name='trash' color={"#000"} />
+                        </Pressable>
+                    </View>
+                    
+                    <Text className='w-[200px]'>{item.description}</Text>
+                    
+                </View>
+                <View className='flex-row w-full justify-between'>
+                    <View>
+                        <Text className=''>$4.00</Text>
+                        <Text className=''>Kz8.000</Text>
+                    </View>
+                    <View className='flex-row items-center '>
+                        <Pressable>
+                            <Text className=''>-</Text>
+                        </Pressable>
+                        <Text className=''>1</Text>
+                        <Pressable>
+                            <Text className=''>+</Text>
+                        </Pressable>
+                    </View>
+                </View>
+           </View>
+        </View>
+    )
+}
 
 const ProductList: React.FC = () => {
   const data: [ProductType] = [
     {
-        img: "https://img.ltwebstatic.com/images3_pi/2022/02/16/1645003997a3299ed04bc5746b81afffb0d28d3b5f_thumbnail_900x.webp",
+        img: "https://img.ltwebstatic.com/images3_pi/2022/01/22/164282074681ff9e367d8803687c133f0d2b905756_thumbnail_900x.webp",
         name: "Men Cartoon & Letter Graphic Swim Trunks",
-        description: "Lormkwfwfemf e ewfmkweme ewfkmkmekfwe ewfemfkefmkewmf m fefekwfmkefm efmekwmf",
+        description: "SHEIN Men Solid Patched Detail Drawstring Waist Shorts Lormkwfwfemf e ewfmkweme ewfkmkmekfwe ewfemfkefmkewmf m fefekwfmkefm efmekwmf",
         currencyDolar: 199,
         currencyAOA: 4000,
         qtd: 5,
@@ -35,7 +67,7 @@ const ProductList: React.FC = () => {
     }
   ]
   return (
-    <View className='w-full'>
+    <View className='w-full p-3'>
         <FlatList data={data} renderItem={({item})=> <List item={item} />}  />
     </View>
   );
