@@ -5,6 +5,7 @@ import { Link, useRouter } from 'expo-router';
 interface Props{
   showTitle?: boolean,
   back?: boolean
+  myClass?: string
 }
 
 
@@ -23,10 +24,9 @@ const Back = ( )=>{
   )
 }
 
-const Header: React.FC<Props> = ({ back, showTitle}) => {
+const Header: React.FC<Props> = ({ back, showTitle, myClass}) => {
   return (
-    <View className='flex-row  justify-between  w-full p-[20px] z-50 relative'>
-
+    <View className={`flex-row  justify-between  w-full p-[20px] z-50 relative ${myClass}`}>
         {back ? <Back  /> : <Menu /> }
         {showTitle ? <View><Text className='text-textInfo font-bold text-3xl'>Carinho</Text></View> : <></>}
         <View>
