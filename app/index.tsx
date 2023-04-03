@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Image } from 'react-native';
-import { View, Text } from 'react-native';
+import { View, Text,  Alert } from 'react-native';
 import Container from '../src/components/Container';
 import Button from '@Components/Button';
 import { useRouter } from 'expo-router';
