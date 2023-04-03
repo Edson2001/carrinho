@@ -8,6 +8,7 @@ module.exports = function (api) {
       ["module-resolver", {
         "alias": {
           "@Components": "./src/components",
+          "@src": "./src",
           "@Assets": "./assets",
           "@Images": "./src/images"
         },

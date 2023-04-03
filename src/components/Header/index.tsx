@@ -11,7 +11,7 @@ interface Props{
 
 const Menu = ()=>(
   <View > 
-    <Feather name='menu' size={20} color={"#FFF"}  />
+    <Feather name='menu' size={20}   />
   </View>
 )
 
@@ -28,7 +28,7 @@ const Header: React.FC<Props> = ({ back, showTitle, myClass}) => {
   return (
     <View className={`flex-row  justify-between  w-full p-[20px] z-50 relative ${myClass}`}>
         {back ? <Back  /> : <Menu /> }
-        {showTitle ? <View><Text className='text-textInfo font-bold text-3xl'>Carinho</Text></View> : <></>}
+        {showTitle ? <View><Text className='font-bold text-3xl'>Carinho</Text></View> : <></>}
         <View>
           <Image className='w-[40px] h-[40px] rounded-full'  source={require("@Images/user.png")} />
         </View>
