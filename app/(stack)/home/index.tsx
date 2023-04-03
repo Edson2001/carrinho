@@ -1,22 +1,30 @@
 import Container from '@Components/Container';
 import React from 'react';
-import { View,Text, ImageBackground } from 'react-native';
+import { View, Text } from 'react-native';
 import Header from "@Components/Header"
-
-import Activites from "@Components/Activites"
+import Activites from '@Components/Activites';
 import Button from '@Components/Button';
+import Card from '@Components/Card';
 
 const home: React.FC = () => {
+
   return (
     <Container >
       <>
-        <ImageBackground imageStyle={{borderBottomLeftRadius: 40, borderBottomRightRadius: 40}} source={require("@Images/home.png")} className='flex-1  w-full h-[400px] rounded-bl-full flex-col  pb-12 items-center'>
-          <Header back={false} showTitle={true} />
-          <View className='w-[300px] '>
-            <Button text='Novo carrinho' />
+        <Header back={false} showTitle={true} />
+        <View className='p-[20px]'>
+          <Card class='rounded-[8px] mb-10'>
+            <View className='p-[30px] '>
+              <Text className='font-semibold text-xl text-center mb-3'>4.000</Text>
+              <Text className='text-center font-normal'>Lucro até agora</Text>
+            </View>
+          </Card>
+          <View className='w-full '>
+            <Text className='mb-3'>Abrir novo carrinho</Text>
+            <Button  text='Novo carrinho ' class='rounded-[6px] mb-10' />
           </View>
-        </ImageBackground>
-        <Activites class='flex-1'  />
+          <Activites  />
+        </View>
       </>
     </Container>
   );

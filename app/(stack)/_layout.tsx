@@ -7,8 +7,8 @@ const Layout: React.FC = () => {
       headerShown: false
     }} >
       <Stack.Screen name='home/index' />
-      <Stack.Screen name='login/index' />
       <Stack.Screen name='cart/index' />
+      <Stack.Screen name='customer/index' />
     </Stack>
   );
 }
