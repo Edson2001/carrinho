@@ -14,7 +14,9 @@ interface ProductType {
     costumer: number,
     productLink: string 
     handleFunction?: ()=> void  
+    data?: [] | null
 }
+
 
 const List = ({item, handleFunction}: ProductType | any)=>{
     return (
@@ -52,24 +54,13 @@ const List = ({item, handleFunction}: ProductType | any)=>{
     )
 }
 
-const ProductList: React.FC = () => {
-  const data: [ProductType] = [
-    {
-        img: "https://img.ltwebstatic.com/images3_pi/2022/01/22/164282074681ff9e367d8803687c133f0d2b905756_thumbnail_900x.webp",
-        name: "Men Cartoon & Letter Graphic Swim Trunks",
-        description: "SHEIN Men Solid Patched Detail Drawstring Waist Shorts Lormkwfwfemf e ewfmkweme ewfkmkmekfwe ewfemfkefmkewmf m fefekwfmkefm efmekwmf",
-        currencyDolar: 199,
-        currencyAOA: 4000,
-        qtd: 5,
-        costumer: 1,
-        productLink: "https://us.shein.com/Men-Cartoon-Letter-Graphic-Swim-Trunks-p-8173952-cat-2025.html?src_module=Men&src_identifier=on=FLASH_SALE`cn=FlashSale`hz=0`ps=7_0`jc=flashSale_0&src_tab_page_id=page_home1680195102896&mallCode=1"
-    }
-  ]
+const ProductList: React.FC<ProductType> = (props) => {
+  
   const [visibleBottomSheet, setVisible] = useState(false)
   return (
     
     <View className='w-full'>
-        <FlatList data={data} renderItem={({item})=> <List handleFunction={()=>setVisible(true)} item={item}  />}  />
+        <FlatList data={props.data} renderItem={({item})=> <List handleFunction={()=>setVisible(true)} item={item}  />}  />
 
         <BottomSheet visible={visibleBottomSheet} onBackButtonPress={()=> setVisible(false)} onBackdropPress={()=> setVisible(false)} >
         
