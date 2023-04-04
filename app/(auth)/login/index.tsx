@@ -29,15 +29,15 @@ const login: React.FC = () => {
   }
   return (
     <Container>
-      <View className='flex-col justify-center items-center h-screen p-[30px]' >
-        <Text className='text-white font-bold text-3xl'>Login</Text>
-        <Text className='text-textWhiteSecondary mb-[117px]'>Acessar conta</Text>
+      <View className='flex-col justify-center items-center h-screen p-[30px] relative'  >
+        <Text className='font-bold text-3xl'>Login</Text>
+        <Text className='mb-[117px]'>Acessar conta</Text>
         
         <Input value={email} setText={setEmail} email={true}  label='Email' class='mb-[20px]' />
         <Input value={password} setText={setPassword} password={true} label='Senha' class='mb-[35px]'  />
 
         <Button handleFunction={()=>login()} text='Login' />
-        {loading ? <ActivityIndicator size="large" /> : <></>}
+        {loading ? <ActivityIndicator className='absolute' color={"#000"} size="large" /> : <></>}
       </View>
     </Container>
   );
