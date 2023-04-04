@@ -15,9 +15,8 @@ interface Props{
 const Activites: React.FC<Props> = (props) => {
   const customer = useRouter()
   return (
-    <View className={`relative ${props.class}`}>
-        
-        <View className='flex-row justify-between mb-3'>
+    <View className={`relative ${props.class} w-full `}>
+        <View className='flex-row justify-between mb-3 w-full'>
           <Pressable  className='flex-row items-center mb-3'>
             <Feather size={20} name='arrow-right-circle' color={"#c8482c"} />
             <Text className='text-[#c8482c] font-bold ml-3'>Ver todos</Text>

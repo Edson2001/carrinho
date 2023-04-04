@@ -1,34 +1,37 @@
 import React, {useState} from 'react';
-import { View, Text, FlatList } from 'react-native';
-import { Link } from 'expo-router';
+import { View, Text, FlatList, TouchableOpacity } from 'react-native';
+import { Link, useRouter } from 'expo-router';
 interface propsList{
     status: 1 |  0 | number
     numberCart: number
 }
-const ListItem = (props: propsList)=>(
-    <Link href="/cart"  className='mb-6 w-full'>
-        <View className='p-[20px] rounded-[6px] w-full flex-row justify-between items-center border-[#DDDEDF] border-[1px]'>
-            <View className='flex-row items-center ' >
-                
-                <View className='w-[30px] h-[30px] flex-row justify-center items-center rounded-full bg-sucess bg-open'>
-                    <Text className='font-bold  text-white'>
-                        {props.numberCart}
-                    </Text>
+const ListItem = (props: propsList)=>{
+    const router = useRouter()
+    return (
+        <TouchableOpacity onPress={()=> router.push('/cart') } >
+            <View className='p-[20px] rounded-[6px] w-full flex-row justify-between items-center border-[#DDDEDF] border-[1px] mb-4'>
+                <View className='flex-row items-center ' >
+                    
+                    <View className='w-[30px] h-[30px] flex-row justify-center items-center rounded-full bg-sucess bg-open'>
+                        <Text className='font-bold  text-white'>
+                            {props.numberCart}
+                        </Text>
+                    </View>
+                    <View className='pl-2'>
+                        <Text className={`${props.status === 1 ? 'text-success' : "text-open"} font-bold mb-1`} >{props.status === 1 ? 'Finalizado' : "Aberto"} </Text> 
+                        <Text className=' text-xs'>20/12/2023 10:50</Text>
+                    </View>
+                    
                 </View>
-                <View className='pl-2'>
-                    <Text className={`${props.status === 1 ? 'text-success' : "text-open"} font-bold mb-1`} >{props.status === 1 ? 'Finalizado' : "Aberto"} </Text> 
-                    <Text className=' text-xs'>20/12/2023 10:50</Text>
-                </View>
                 
+                <View>
+                    <Text className=' font-bold text-lg'>$129.99</Text>
+                    <Text className=' text-sm font-semibold'>Kz50.000</Text>
+                </View>
             </View>
-            
-            <View>
-                <Text className=' font-bold text-lg'>$129.99</Text>
-                <Text className=' text-sm font-semibold'>Kz50.000</Text>
-            </View>
-        </View>
-    </Link>
-)
+        </TouchableOpacity>
+     )
+}
 const List: React.FC = () => {
     const [data, setData] = useState([
     {
@@ -62,6 +65,7 @@ const List: React.FC = () => {
         <FlatList
             keyExtractor={item => item.id} 
             data={data}  
+            className='w-full '
             renderItem={({item})=> (<ListItem status={item.status} numberCart={item.numberCart} />)}
         />
     );

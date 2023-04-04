@@ -13,16 +13,16 @@ const app: React.FC = () => {
   useEffect(()=>{
 
     mySession().then(data=>{
-      console.log(data.user)
       setSession(data)
     })
     
     supabase.auth.onAuthStateChange((_event, session)=>{
       setSession(session)
     })
+    
 
-    if(routerName == '/login' && session.user) router.push("/home")
-
+    if(routerName == '/login' && session && session!.user) router.push("/home")
+    console.log(session, 'ddddddddddda')
   }, [routerName])
 
   return <Slot />;
