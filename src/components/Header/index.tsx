@@ -1,19 +1,28 @@
 import React from 'react';
-import { View, Pressable, Text, Image } from 'react-native';
-import {Feather} from "@expo/vector-icons"
-import { Link, useRouter } from 'expo-router';
+import { View, Pressable, Text, Image, TouchableOpacity } from 'react-native';
+import {Feather, FontAwesome} from "@expo/vector-icons"
+import {  useRouter } from 'expo-router';
+import { supabase } from '@src/databases/supbase';
+
 interface Props{
   showTitle?: boolean,
   back?: boolean
   myClass?: string
 }
 
+const Menu = ()=>{
+  const router = useRouter()
+  function signOut(){
+    supabase.auth.signOut()
+    router.push("/login")
+  }
 
-const Menu = ()=>(
-  <View > 
-    <Feather name='menu' size={20}   />
-  </View>
-)
+  return (
+    <TouchableOpacity  onPress={()=> signOut()} > 
+      <FontAwesome name='sign-out' size={20}   />
+    </TouchableOpacity>
+  )
+}
 
 const Back = ( )=>{
   const router = useRouter()
@@ -26,11 +35,10 @@ const Back = ( )=>{
 
 const Header: React.FC<Props> = ({ back, showTitle, myClass}) => {
   return (
-    <View className={`flex-row  justify-between  w-full p-[20px] z-50 relative ${myClass}`}>
+    <View className={`flex-row  justify-between items-center  w-full p-[20px] z-50 relative ${myClass}`}>
         {back ? <Back  /> : <Menu /> }
-        {showTitle ? <View><Text className='font-bold text-3xl'>Carinho</Text></View> : <></>}
         <View>
-          <Image className='w-[40px] h-[40px] rounded-full'  source={require("@Images/user.png")} />
+          <Text>djiedson413</Text>
         </View>
     </View>
   );
