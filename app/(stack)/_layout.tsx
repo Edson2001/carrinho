@@ -9,6 +9,7 @@ const Layout: React.FC = () => {
       <Stack.Screen name='home/index' />
       <Stack.Screen name='cart/index' />
       <Stack.Screen name='customer/index' />
+      <Stack.Screen name='newcart/index' />
     </Stack>
   );
 }
