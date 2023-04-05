@@ -1,63 +1,59 @@
+import { supabase } from "@src/databases/supbase"
 import {create} from "zustand"
+//import axios from "axios"
 
 interface propsStoreProducts{
     state:{
-        products: []
+        products?: [],
+        loading?: boolean
     },
 
-    setProducts?: ()=> void
+    setProducts?: (cartID: number | string)=> void
+    addProduct?: ({products, cartID, customerID, exchange}:{products: {
+        priceDolar: string | number,
+        priceAOA?: string | number,
+        qtd: string | number,
+        image: string,
+        name: string,
+        description: string,
+        product_link: string,
+    }, cartID: number | string , customerID: number | string, exchange: string | Number})=> void
 }
 
 export const useProductStore = create<propsStoreProducts>(set=>({
     state:{
-        products: []
+        products: [],
+        loading: false
     },
-    setProducts(){
-        const data = [
-            {
-             img: "https://img.ltwebstatic.com/images3_pi/2022/01/22/164282074681ff9e367d8803687c133f0d2b905756_thumbnail_900x.webp",
-             name: "Men Cartoon & Letter Graphic Swim Trunks",
-             description: "SHEIN Men Solid Patched Detail Drawstring Waist Shorts Lormkwfwfemf e ewfmkweme ewfkmkmekfwe ewfemfkefmkewmf m fefekwfmkefm efmekwmf",
-             priceDolar: 199,
-             priceAOA: 5000,
-             qtd: 5,
-             costumer: 1,
-             data: '12/03/2023',
-             productLink: "https://us.shein.com/Men-Cartoon-Letter-Graphic-Swim-Trunks-p-8173952-cat-2025.html?src_module=Men&src_identifier=on=FLASH_SALE`cn=FlashSale`hz=0`ps=7_0`jc=flashSale_0&src_tab_page_id=page_home1680195102896&mallCode=1",
-             customer: "Edson Santos",
-             customerNumber: '9233434'
-            },
-            {
-                img: "https://img.ltwebstatic.com/images3_pi/2023/01/19/167411268329ffd9bb4358fe3506030bbb1124c69c_thumbnail_900x.webp",
-                name: "Geo Print Notched Neckline Batwing Sleeve Blouse",
-                description: "SHEIN Men Solid Patched Detail Drawstring Waist Shorts Lormkwfwfemf e ewfmkweme ewfkmkmekfwe ewfemfkefmkewmf m fefekwfmkefm efmekwmf",
-                priceDolar: 90,
-                priceAOA: 2000,
-                qtd: 2,
-                costumer: 1,
-                data: '12/03/2023',
-                customer: "Edson Santos",
-                customerNumber: '9233434',
-                productLink: "https://us.shein.com/Men-Cartoon-Letter-Graphic-Swim-Trunks-p-8173952-cat-2025.html?src_module=Men&src_identifier=on=FLASH_SALE`cn=FlashSale`hz=0`ps=7_0`jc=flashSale_0&src_tab_page_id=page_home1680195102896&mallCode=1"
-            },
-            {
-                img: "https://img.ltwebstatic.com/images3_pi/2023/01/19/167411268329ffd9bb4358fe3506030bbb1124c69c_thumbnail_900x.webp",
-                name: "Geo Print Notched Neckline Batwing Sleeve Blouse",
-                description: "SHEIN Men Solid Patched Detail Drawstring Waist Shorts Lormkwfwfemf e ewfmkweme ewfkmkmekfwe ewfemfkefmkewmf m fefekwfmkefm efmekwmf",
-                priceDolar: 20,
-                priceAOA: 800,
-                qtd: 2,
-                costumer: 1,
-                data: '12/03/2023',
-                customer: "Deusa Oliveira",
-                customerNumber: '9233434',
-                productLink: "https://us.shein.com/Men-Cartoon-Letter-Graphic-Swim-Trunks-p-8173952-cat-2025.html?src_module=Men&src_identifier=on=FLASH_SALE`cn=FlashSale`hz=0`ps=7_0`jc=flashSale_0&src_tab_page_id=page_home1680195102896&mallCode=1"
-            }
-        ]
+    setProducts: async (cartID)=>{
+
+        cartID = Number(cartID)
+        const {data, error} = await supabase
+        .from("products_cart")
+        .select(`*, customer(name, number_phone)`)
+        .eq('cart_id', cartID)
+        
         set({
             state:{
-                products: data
+                products: data || []
             }
         })
+    },
+    addProduct: async ({cartID, customerID, products, exchange})=>{
+
+        set({state: {loading: true}})
+        products.priceDolar = Number(products.priceDolar) 
+        products.qtd = Number(products.qtd)
+        products.priceAOA = (products.priceDolar * products.qtd) * Number(exchange)
+
+        const {error, status} = await supabase.from('products_cart')
+        .insert({
+            ...products,
+            cart_id: cartID,
+            customer_id: customerID
+        })
+        set({state: {loading: false}})
+        console.log(error, status)
+        
     }
 }))

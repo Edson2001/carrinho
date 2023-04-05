@@ -34,7 +34,7 @@ const login: React.FC = () => {
         <Text className='mb-[117px]'>Acessar conta</Text>
         
         <Input value={email} setText={setEmail} email={true}  label='Email' class='mb-[20px]' />
-        <Input value={password} setText={setPassword} password={true} label='Senha' class='mb-[35px]'  />
+        <Input value={password} keyboardType='email-address' setText={setPassword} password={true} label='Senha' class='mb-[35px]'  />
 
         <Button handleFunction={()=>login()} text='Login' />
         {loading ? <ActivityIndicator className='absolute' color={"#000"} size="large" /> : <></>}
