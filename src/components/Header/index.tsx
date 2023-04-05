@@ -13,9 +13,9 @@ interface Props{
 
 const Menu = ()=>{
   const router = useRouter()
-  function signOut(){
-    supabase.auth.signOut()
-    router.push("/login")
+  async function signOut(){
+    const {error} = await  supabase.auth.signOut()
+    if(!error) router.push("/login")
   }
 
   return (
