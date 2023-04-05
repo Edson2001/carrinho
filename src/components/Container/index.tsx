@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import {  SafeAreaView } from 'react-native';
+import {  SafeAreaView, Platform } from 'react-native';
 import { usePathname } from 'expo-router';
 
 
@@ -12,7 +12,7 @@ const Container: React.FC<Props> = (props) => {
   return (
     <>
       {routeName == '/home' ? <SafeAreaView className='flex-0 ' /> : <></>}
-      <SafeAreaView  className='flex-1 h-full  relative'>
+      <SafeAreaView  className={`flex-1 h-full  relative  `}>
         <StatusBar style='dark'/>
         {props.children}
       </SafeAreaView>

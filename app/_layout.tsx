@@ -22,7 +22,6 @@ const app: React.FC = () => {
     
 
     if(routerName == '/login' && session && session!.user) router.push("/home")
-    console.log(session, 'ddddddddddda')
   }, [routerName])
 
   return <Slot />;

@@ -18,10 +18,14 @@ interface ProductType {
 }
 
 
-const List = ({item, handleFunction}: ProductType | any)=>{
+const List = ({item}: ProductType | any)=>{
+    const [visibleBottomSheet, setVisible] = useState(false)
+    function openBottomSheet(){
+        setVisible(true)
+    }
     return (
     
-        <TouchableOpacity onPress={handleFunction} >
+        <TouchableOpacity onPress={()=> openBottomSheet()} >
             <View className='bg-white  flex-row p-3 mb-4'>
                 <Image className='w-[100px] h-[100px]' source={{
                     uri: item.img
@@ -32,70 +36,60 @@ const List = ({item, handleFunction}: ProductType | any)=>{
                             <Text className='mb-3 w-[200px]'>{item.name}</Text>
                         </View>
                     </View>
-                    <View className='flex-row w-full justify-between'>
-                        <View className='flex-col '>
-                            <Text className='font-bold text-2xl'>$4.00</Text>
-                            <Text className='font-bold text-xs'>Kz8.000</Text>
+                    <View className='flex-row w-full items-center '>
+                        <View className='flex-col mr-2 '>
+                            <Text className='font-bold text-2xl'>${item.priceDolar} </Text>
+                            <Text className='font-bold text-xs'>Kz{item.priceAOA}</Text>
                         </View>
-                        <View className='flex-row items-center '>
-                            <Pressable>
-                                <Text className=''>-</Text>
-                            </Pressable>
-                            <Text className=''>1</Text>
-                            <Pressable>
-                                <Text className=''>+</Text>
-                            </Pressable>
-                        </View>
+                        <Text>X {item.qtd}</Text>         
+                    </View>
+                    <View>
+                        <Text>{item.customer} - {item.customerNumber} </Text>
                     </View>
                 </View>
             </View>
+            <BottomSheet visible={visibleBottomSheet} onBackButtonPress={()=> setVisible(false)} onBackdropPress={()=> setVisible(false)} >
+        
+                <View className='bg-white h-[80%] p-[30px] flex-col justify-between rounded-tr-[30px] rounded-tl-[30px]'>
+                    <View className=''>
+                        <View  className='mb-10'>
+                            
+                            <Text className='font-bold text-2xl'>{item.name} </Text>
+                            <Text>{item.description}</Text>
+                        </View>
+                        <View className='mb-6'>
+                            <Text >Data e hora</Text>
+                            <Text>{item.data}</Text>
+                        </View>
+
+                        <View className='flex-row justify-between'>
+                            <View>
+                                <Text className='font-normal'>Total em Kz</Text>
+                                <Text className='font-bold'>{item.priceAOA}</Text>
+                            </View>
+                            <View>
+                                <Text className='font-normal'>Total em Dolar</Text>
+                                <Text className='font-bold text-right'>{item.priceDolar}</Text>
+                            </View>
+                        </View>
+                    </View>
+                    <View className='flex-col justify-end'>
+                        <Button class='mb-5' text='Editar produto' />
+                        <Button class='' text='Excluir produto' />
+                    </View>
+                    
+                </View>
+
+            </BottomSheet>
         </TouchableOpacity>
       
     )
 }
 
 const ProductList: React.FC<ProductType> = (props) => {
-  
-  const [visibleBottomSheet, setVisible] = useState(false)
   return (
-    
     <View className='w-full'>
-        <FlatList data={props.data} renderItem={({item})=> <List handleFunction={()=>setVisible(true)} item={item}  />}  />
-
-        <BottomSheet visible={visibleBottomSheet} onBackButtonPress={()=> setVisible(false)} onBackdropPress={()=> setVisible(false)} >
-        
-            <View className='bg-white h-[80%] p-[30px] flex-col justify-between rounded-tr-[30px] rounded-tl-[30px]'>
-                <View className=''>
-                    <View  className='mb-10'>
-                        
-                        <Text className='font-bold text-2xl'>Nova descrição </Text>
-                        <Text>Xis completo da lancheria do bairro</Text>
-                    </View>
-                    <View className='mb-6'>
-                        <Text >Data e hora</Text>
-                        <Text>12/04/22  as 22:34</Text>
-                    </View>
-
-                    <View className='flex-row justify-between'>
-                        <View>
-                            <Text className='font-normal'>Total em Kz</Text>
-                            <Text className='font-bold'>3.000</Text>
-                        </View>
-                        <View>
-                            <Text className='font-normal'>Total em Dolar</Text>
-                            <Text className='font-bold text-right'>43.000</Text>
-                        </View>
-                    </View>
-                </View>
-                <View className='flex-col justify-end'>
-                    <Button class='mb-5' text='Editar produto' />
-                    <Button class='' text='Excluir produto' />
-                </View>
-                
-            </View>
-
-        </BottomSheet>
-
+        <FlatList data={props.data} renderItem={({item})=> <List  item={item}  />}  />
     </View>
   );
 }

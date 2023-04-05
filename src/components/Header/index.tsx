@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Pressable, Text, Image, TouchableOpacity } from 'react-native';
 import {Feather, FontAwesome} from "@expo/vector-icons"
 import {  useRouter } from 'expo-router';
 import { supabase } from '@src/databases/supbase';
+import { useUserStore } from '@src/store/user';
 
 interface Props{
   showTitle?: boolean,
@@ -34,11 +35,19 @@ const Back = ( )=>{
 }
 
 const Header: React.FC<Props> = ({ back, showTitle, myClass}) => {
+
+  const {state, getUser} = useUserStore((state)=> state)
+  
+  useEffect(()=>{
+    getUser()
+    console.log(state.user.email, 'state')
+  }, [])
+
   return (
     <View className={`flex-row  justify-between items-center  w-full p-[20px] z-50 relative ${myClass}`}>
         {back ? <Back  /> : <Menu /> }
         <View>
-          <Text>djiedson413</Text>
+          <Text>{state.user.email} </Text>
         </View>
     </View>
   );
