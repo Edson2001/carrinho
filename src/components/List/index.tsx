@@ -6,10 +6,11 @@ interface propsList{
    item:{
     title:  string
     id: number,
-    link?: string
+    link?: string 
     subTitle?: string
     rightTitle?: string
-    rightSubTitle?: string
+    rightSubTitle?: string,
+    exchange?: string | number 
    }
 }
 
@@ -20,9 +21,8 @@ interface propsListFlat{
 }
 const ListItem = ({item}: propsList)=>{
     const router = useRouter()
-
     function handleFunction(){
-        if(item.link) router.push(item.link)
+        if(item.link) router.push({pathname: item.link, params: {id: item.id, exchange: item.exchange}})
     }
     
     return (
@@ -51,7 +51,7 @@ const List: React.FC<propsListFlat> = (props) => {
     
     return (
         <FlatList
-            keyExtractor={item => item.id+props.key} 
+            keyExtractor={item => item.id} 
             data={props.data}  
             className='w-full '
             renderItem={({item})=> (<ListItem item={item} />)}
