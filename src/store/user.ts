@@ -3,25 +3,15 @@ import {create} from "zustand"
 import { session } from "@src/databases/supbase/session"
 
 interface userStoreType{
-
-    state: {
-        user?: {}
-    },
+    user?: {}
     getUser?: ()=> void 
-
 }
 
 export const useUserStore = create<userStoreType>(store=>({
-    state:{
-        user: {}
-    },
+    user: {},
     getUser:  ()=>{
         session().then(data=>{
-            store({
-                state: {
-                    user: data.user
-                }
-            })
+            store({user: data.user})
         })
     }
 })) 
