@@ -18,12 +18,11 @@ const profits: React.FC = () => {
   return (
     <Container>
         <>
-            <Header myClass='flex-2' showTitle={false} back={true}   />
-            <View className='flex-1 h-screen p-3'>
-                <Button class='mb-4' handleFunction={()=> setVisible(!visible)} text='Cadastrar cliente ' />
-                <List data={state.customers} />
-            </View>
-            
+          <Header myClass='flex-2' showTitle={false} back={true}   />
+          <View className='flex-1 h-screen p-3'>
+            <Button class='mb-4' handleFunction={()=> setVisible(!visible)} text='Cadastrar cliente ' />
+            <List data={state.customers} />
+          </View>
         </>
     </Container>
   );
