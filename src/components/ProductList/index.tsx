@@ -5,7 +5,7 @@ import {BottomSheet} from "react-native-btr"
 import Button from '@Components/Button';
 
 interface ProductType {
-    img: string
+    image: string
     name: string
     description: string
     currencyDolar:number
@@ -15,6 +15,7 @@ interface ProductType {
     productLink: string 
     handleFunction?: ()=> void  
     data?: [] | null
+    customer: {}
 }
 
 
@@ -28,7 +29,7 @@ const List = ({item}: ProductType | any)=>{
         <TouchableOpacity onPress={()=> openBottomSheet()} >
             <View className='bg-white  flex-row p-3 mb-4'>
                 <Image className='w-[100px] h-[100px]' source={{
-                    uri: item.img
+                    uri: item.image
                 }} />
                 <View className='ml-3'>
                     <View className='flex-col'>
@@ -44,7 +45,7 @@ const List = ({item}: ProductType | any)=>{
                         <Text>X {item.qtd}</Text>         
                     </View>
                     <View>
-                        <Text>{item.customer} - {item.customerNumber} </Text>
+                        <Text>{item.customer.name} - {item.customer.number_phone} </Text>
                     </View>
                 </View>
             </View>

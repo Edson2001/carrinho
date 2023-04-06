@@ -3,11 +3,12 @@ import {create} from "zustand"
 //import axios from "axios"
 
 interface propsStoreProducts{
-    state:{
-        products?: [],
-        loading?: boolean
-    },
-
+    
+    products?: {}[],
+    loading?: boolean,
+    close?: boolean,
+    isOpenBottomSheet?: boolean,
+    toggleBottomSheet?: (state: boolean)=>void,
     setProducts?: (cartID: number | string)=> void
     addProduct?: ({products, cartID, customerID, exchange}:{products: {
         priceDolar: string | number,
@@ -20,10 +21,14 @@ interface propsStoreProducts{
     }, cartID: number | string , customerID: number | string, exchange: string | Number})=> void
 }
 
-export const useProductStore = create<propsStoreProducts>(set=>({
-    state:{
-        products: [],
-        loading: false
+export const useProductStore = create<propsStoreProducts>((set, get)=>({
+    
+    products: [],
+    loading: false,
+    close: false,
+    isOpenBottomSheet: false,
+    toggleBottomSheet: (state)=>{
+        set({ isOpenBottomSheet: state})
     },
     setProducts: async (cartID)=>{
 
@@ -32,16 +37,14 @@ export const useProductStore = create<propsStoreProducts>(set=>({
         .from("products_cart")
         .select(`*, customer(name, number_phone)`)
         .eq('cart_id', cartID)
+        .order('id', {ascending: false})
         
-        set({
-            state:{
-                products: data || []
-            }
-        })
+        set({products: data || []})
     },
     addProduct: async ({cartID, customerID, products, exchange})=>{
 
-        set({state: {loading: true}})
+        set({loading: true})
+        const currentState = get()
         products.priceDolar = Number(products.priceDolar) 
         products.qtd = Number(products.qtd)
         products.priceAOA = (products.priceDolar * products.qtd) * Number(exchange)
@@ -52,7 +55,13 @@ export const useProductStore = create<propsStoreProducts>(set=>({
             cart_id: cartID,
             customer_id: customerID
         })
-        set({state: {loading: false}})
+        console.log(error, 'errrrorrrrrr')
+        if(status === 201){
+            currentState.setProducts(cartID)
+            currentState.toggleBottomSheet(false)
+        }
+
+        set({loading: false})
         console.log(error, status)
         
     }

@@ -7,6 +7,7 @@ import ProductList from "@Components/ProductList"
 import {BottomSheet} from "react-native-btr"
 import AddProduct from '@Components/addProduct';
 import { useProductStore } from '@src/store/product';
+import { useSearchParams } from 'expo-router';
 const CartEmpty = ()=>(
     <View className='w-full flex-col justify-center items-center h-[80%]'>
         <Image source={require("@Images/product.png")} />
@@ -14,28 +15,14 @@ const CartEmpty = ()=>(
 )
 
 const Cart: React.FC = () => {
-  const {state, setProducts} = useProductStore(state=> state)
-  const [visible, setVisible] = useState(false)
+  
+  const {products, setProducts, isOpenBottomSheet, toggleBottomSheet} = useProductStore(state=> state)
   const [totalDolar, setTotalDolar] = useState(0)
   const [totalKwanza, setTotalKwanza] = useState(0)
   const [qtd, setQtd] = useState(0)
+  const params = useSearchParams()
   useEffect(()=>{
-    
-    setProducts()
-
-    let dolar = 0
-    let kwanza = 0
-    let qtdUpdate = 0
-    
-    state.products.forEach(cartItem=>{
-        dolar += cartItem.priceDolar
-        kwanza += cartItem.priceAOA
-        qtdUpdate += cartItem.qtd
-    })
-
-    setTotalDolar(dolar)
-    setTotalKwanza(kwanza)
-    setQtd(qtdUpdate)
+    setProducts(params.id)
   }, [])
 
   return (
@@ -44,8 +31,8 @@ const Cart: React.FC = () => {
             <Header myClass='flex-2' showTitle={false} back={true}   />
             <View className='flex-1 h-screen '>
                 <View className='p-3 '>
-                    <Button class='mb-3' handleFunction={()=> setVisible(!visible)} text='Adicionar produto ' />
-                    {state.products.length > 0 ? <ProductList data={state.products} /> : <CartEmpty /> }
+                    <Button class='mb-3' handleFunction={()=> toggleBottomSheet(true)} text='Adicionar produto ' />
+                    {products && products.length > 0 ? <ProductList data={products} /> : <CartEmpty /> }
                 </View>
 
                 <View className='flex-row justify-between items-center w-full absolute bottom-0  p-[10px] bg-white'>
@@ -62,9 +49,9 @@ const Cart: React.FC = () => {
                     </View>
                 </View>
             </View>
-            <BottomSheet onBackButtonPress={()=>setVisible(!visible)} onBackdropPress={()=> setVisible(!visible)} visible={visible} >
+            <BottomSheet onBackButtonPress={()=>toggleBottomSheet(false)} onBackdropPress={()=> toggleBottomSheet(false)} visible={isOpenBottomSheet} >
                 <View className='bg-white h-[85%] rounded-tl-[30px] rounded-tr-[30px]'>
-                    <AddProduct />
+                    <AddProduct exchange={params.exchange} cartID={params.id} />
                 </View>
             </BottomSheet>
         </>

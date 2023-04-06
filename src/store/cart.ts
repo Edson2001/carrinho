@@ -2,19 +2,25 @@ import { create } from "zustand";
 import { supabase } from "@src/databases/supbase";
 
 interface propsStoreCart{
-    state: {
-        cart?: {}[],
-        loading?: boolean
-    }
+    
+    cart?: {}[],
+    loading?: boolean
+    isOpenBotomSheet?: boolean,
+    toggleBottomSheet?: (state: boolean)=> void,
     setCart: ()=>void
     openCart: ({exchange, goal}: {exchange: number, goal?: number| string})=>void
 }
 
 export const useCartStore = create<propsStoreCart>((set, get)=>({
-    state: {
-        cart: [],
-        loading: false
+   
+    cart: [],
+    loading: false,
+    isOpenBotomSheet: false,
+
+    toggleBottomSheet: (state) =>{
+        set({isOpenBotomSheet: state})
     },
+    
     setCart: async ()=> {
         const {data, error, status} = await supabase
         .from("cart")
@@ -31,27 +37,26 @@ export const useCartStore = create<propsStoreCart>((set, get)=>({
                 exchange: item.exchange
             }
         })
-        set({
-            state:{
-                cart: cartItems
-            }
-        })
+        set({cart: cartItems})
     },
 
     openCart: async ({exchange, goal})=>{
-        try{
-            exchange = Number(exchange)
-            goal = Number(goal)
-            set({state:{loading: true} })
-            
-            const {error, status} = await supabase.from("cart").insert({
-                exchange,
-                goal
-            })
-            if(error)  throw new Error()
-            set({state:{loading: false}})         
-        }catch(e){
-            console.log(e, 'erro do try')
+        
+        exchange = Number(exchange)
+        goal = Number(goal)
+        const currentCart = get()
+        set({loading: true} )
+        
+        const {error, status} = await supabase.from("cart").insert({
+            exchange,
+            goal
+        })
+        if(status === 201){
+            currentCart.setCart()
+            currentCart.toggleBottomSheet(false)
         }
+        if(error)  throw new Error()
+        set({loading: false})         
+       
     }
 })) 

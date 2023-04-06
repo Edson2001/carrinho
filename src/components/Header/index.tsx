@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, Pressable, Text, Image, TouchableOpacity } from 'react-native';
+import { View, Pressable, Text, TouchableOpacity } from 'react-native';
 import {Feather, FontAwesome} from "@expo/vector-icons"
 import {  useRouter } from 'expo-router';
 import { supabase } from '@src/databases/supbase';
@@ -36,18 +36,18 @@ const Back = ( )=>{
 
 const Header: React.FC<Props> = ({ back, showTitle, myClass}) => {
 
-  const {state, getUser} = useUserStore((state)=> state)
+  const {user, getUser} = useUserStore((state)=> state)
   
   useEffect(()=>{
     getUser()
-    console.log(state.user.email, 'state')
+    console.log(user?.email, 'state')
   }, [])
 
   return (
     <View className={`flex-row  justify-between items-center  w-full p-[20px] z-50 relative ${myClass}`}>
         {back ? <Back  /> : <Menu /> }
         <View>
-          <Text>{state.user.email} </Text>
+          <Text>{user?.email} </Text>
         </View>
     </View>
   );
